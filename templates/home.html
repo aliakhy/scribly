@@ -1,0 +1,29 @@
+
+
+
+
+
+
+{% extends "base/base.html" %}
+
+{% block title %}
+<title>HOME</title>
+{% endblock %}
+{% block content %}
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">WELCOME</h1>
+        <p class="lead text-body-secondary">U CAN SEE OUR ARTICLE </p>
+          <a href="{% url 'article:article_list' %}" class="btn btn-primary my-2">Article_list</a>
+    
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+<a href="{% url 'blog:article_list' %}">Articels</a>
+
+
+
+

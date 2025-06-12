@@ -1,0 +1,101 @@
+{% extends 'base/base.html' %}
+{% block title %}
+<title>profile</title>
+{% endblock %}
+{% block content %}
+  
+
+<section class="h-100 gradient-custom-2">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center">
+      <div class="col col-lg-9 col-xl-8">
+        <div class="card">
+          <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+            {% if profile.avatar %}    
+              <img src="{{ profile.avatar.url }}"
+                   alt="Generic placeholder image"
+                   class="img-fluid img-thumbnail mt-4 mb-2"
+                   style="width: 150px; height: 150px; object-fit: cover; z-index: 1;">
+            {% else %}
+              <img src="/../media/users/po.png"
+                   alt="Generic placeholder image"
+                   class="img-fluid img-thumbnail mt-4 mb-2"
+                   style="width: 150px; height: 150px; object-fit: cover; z-index: 1;">
+            {% endif %}  
+
+                
+            
+            </div>
+            
+          </div>
+          <div class="p-4 text-black bg-body-tertiary">
+            <div class="d-flex justify-content-end text-center py-1 text-body">
+              <div>
+                <p class="mb-1 h5">253</p>
+                <p class="small text-muted mb-0">Photos</p>
+              </div>
+              
+              
+            </div>
+          </div>
+          <div class="card-body p-4 text-black">
+          <form novalidate method="post" action="" enctype="multipart/form-data">
+                 {% csrf_token %}
+                    
+                     <div class="row">
+                 
+                 
+                     <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div data-mdb-input-init class="form-outline">
+                      <label class="form-label" for="form3Example1">user name</label>
+                        {{ form.username }}
+                        {% for error in form.username.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                  </div>
+                  
+                  <div data-mdb-input-init class="form-outline mb-4">
+                  
+                  <label class="form-label" for="form3Example3">Email address</label>
+                        {{ form.email }}
+                 {% for error in form.email.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div data-mdb-input-init class="form-outline">
+                      <label class="form-label" style="width: 120px;" for="form3Example1">About me</label>
+                        {{ form.about_me }}
+                        {% for error in form.about_me.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                </div>     
+                
+                     
+                <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="form2Example22">avatar</label>
+                {{ form.avatar }}
+                {% for error in form.avatar.errors %}
+                   <p class="text-danger">{{ error }} </p>
+                {% endfor %}
+                    
+                    </div>
+
+                  <div class="text-center pt-1 mb-5 pb-1">
+                     <button type="submit" class="btn btn-primary">confirm</button>
+                      
+                </form>
+                    
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+

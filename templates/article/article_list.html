@@ -1,0 +1,113 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load ratings %}
+
+{% block title %}
+<title>Article</title>
+{% endblock %}
+
+{% block content %}
+<main>
+<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+
+<section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Article List</h1>
+      <p>
+        <a href="{% url 'article:article_create' %}" class="btn btn-primary my-2">Create Article</a>
+      </p>
+    </div>
+  </div>
+
+  <form method="get" action="">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <label for="category"><strong>categories</strong></label>
+          <select id="category" name="category" class="form-control select2">
+            <option value=""></option>
+            {% for category in categories %}
+              <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.title }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <label for="search"><strong>Search</strong></label>
+          <input type="text" id="search" name="search" class="form-control" placeholder="Select" value="{{ search_keyword }}">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </form>
+</section>
+
+
+<div class="album py-5 bg-body-tertiary">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      {% for article in page_object.object_list %}
+        {% if article.is_show %}
+        <div class="col">
+          <div class="card shadow-sm">
+            <a href="{% url 'article:article_detail' article.id %}">
+              <img class="bd-placeholder-img card-img-top" src="{{ article.picture.url }}" style="height: 180px; object-fit: cover; width: 100%;">
+            </a>
+            <div class="card-body">
+                {%  if article.title|length > 25 %}
+                    <h4 class="card-text">{{ article.title |slice:":25"  }}...</h4>
+                {% else %}
+                    <h4 class="card-text">{{ article.title  }}</h4>
+                {% endif %}    
+              {% ratings article %}
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <a href="{% url 'accounts:profile_page' article.author.username %}" type="button" class="btn btn-sm btn-outline-secondary">Author : {{ article.author.username}}</a>
+                </div>
+                <small class="text-body-secondary">Last Update : {{ article.update_date|date:"Y/m/d" }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      {% empty %}
+        <h4 class="text-danger">No Article Found</h4>
+      {% endfor %}
+    </div>
+
+   
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        {% if page_object.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_object.previous_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if search_keyword %}&search={{ search_keyword }}{% endif %}">Previous</a>
+          </li>
+        {% endif %}
+
+        <li class="page-item active"><a class="page-link" href="#">{{ page_object.number }}</a></li>
+
+        {% if page_object.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_object.next_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if search_keyword %}&search={{ search_keyword }}{% endif %}">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<!-- select2 Script -->
+<script>
+  $(document).ready(function() {
+    $('.select2').select2({
+      placeholder: "Select",
+      width: '100%'
+    });
+  });
+</script>
+
+</main>
+    
+{% endblock %}

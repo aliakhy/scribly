@@ -1,0 +1,247 @@
+
+{% extends 'base/base.html' %}
+{% load ratings %}
+{% load static %}
+
+{% block title %}
+<title>profile</title>
+{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+
+
+<section class="h-100 gradient-custom-2">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center">
+      <div class="col col-lg-9 col-xl-8">
+        <div class="card">
+          <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+            {% if profile.avatar %}
+              <img src="{{ profile.avatar.url }}"
+                   alt="Generic placeholder image"
+                   class="img-fluid img-thumbnail mt-4 mb-2"
+                   style="width: 150px; height: 150px; object-fit: cover; z-index: 1;">
+            {% else %}
+              <img src="/../media/users/po.png"
+                   alt="Generic placeholder image"
+                   class="img-fluid img-thumbnail mt-4 mb-2"
+                   style="width: 150px; height: 150px; object-fit: cover; z-index: 1;">
+            {% endif %}
+              {% if is_owner %}
+              <a href="{% url 'accounts:edit_profile' %}"
+                   class="btn btn-outline-dark text-body"
+                   data-mdb-button-init
+                   data-mdb-ripple-init
+                   data-mdb-ripple-color="dark"
+                   style="z-index: 1;">
+                   Edit profile
+                </a>
+               {% endif  %}
+
+        
+            </div>
+            <div class="ms-3" style="margin-top: 130px;">
+              <h5>{{ profile.user.username }}</h5>
+              {% if is_owner %}
+              <p>{{ profile.user.email }}</p>
+              {% endif %}
+            </div>
+          </div>
+          <div class="p-4 text-black bg-body-tertiary">
+            <div class="d-flex justify-content-end text-center py-1 text-body">
+              <div>
+                      
+             
+               <p class="mb-1 h5">{{ articles_count }}</p>
+                <p class="small text-muted mb-0">Articles</p>
+              </div>
+              {% if is_owner %}  
+              <div class="px-3">
+                <a href="{% url 'accounts:change_password' %}"
+                   class="btn btn-outline-dark text-body"
+                   data-mdb-button-init
+                   data-mdb-ripple-init
+                   data-mdb-ripple-color="dark"
+                   style="z-index: 1;">
+                   Change possword
+                </a>
+              </div>
+              {% endif %}  
+              
+            </div>
+          </div>
+          <div class="card-body p-4 text-black">
+            <div class="mb-5  text-body">
+              <p class="lead fw-normal mb-1">About ME</p>
+              <div class="p-4 bg-body-tertiary">
+                  {% if  profile.about_me  %}
+                    <p class="font-italic mb-1">{{ profile.about_me|linebreaksbr }}</p>
+                  {% else %}
+                    <p class="font-italic mb-1"></p>
+                  {% endif %}
+              </div>
+            {% if is_owner %}
+            <div class="py-4 px-4"> <div class="d-flex align-items-center justify-content-between mb-3"> 
+                <li><a href="{% url 'accounts:logout_page' %}" class="btn btn-danger my-2">log out</a></li>
+            </div> 
+            </div>
+            {% endif %}
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="album py-5 bg-body-tertiary">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      {% for article in page_object.object_list %}
+        {% if article.is_show %}
+        <div class="col">
+          <div class="card shadow-sm">
+            <a href="{% url 'article:article_detail' article.id %}">
+              <img class="bd-placeholder-img card-img-top" src="{{ article.picture.url }}" style="height: 180px; object-fit: cover; width: 100%;">
+            </a>
+            <div class="card-body">
+                {%  if article.title|length > 25 %}
+                    <h4 class="card-text">{{ article.title |slice:":25"  }}...</h4>
+                {% else %}
+                    <h4 class="card-text">{{ article.title  }}</h4>
+                {% endif %}    
+              {% ratings article %}
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Auther : {{ article.author.username}}</button>
+                </div>
+                <small class="text-body-secondary">Last Update : {{ article.update_date|date:"Y/m/d" }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      {% empty %}
+        <h4 class="text-danger">No Article Found</h4>
+      {% endfor %}
+    
+    {% if is_owner %}
+         {% for article in page_object.object_list %}
+        {% if article.is_show == False %}
+        <div class="col">
+          <div class="card shadow-sm">
+            <a href="{% url 'article:article_detail' article.id %}">
+              <img class="bd-placeholder-img card-img-top" src="{{ article.picture.url }}" style="height: 180px; object-fit: cover; width: 100%;">
+            </a>
+            <div class="card-body">
+                {%  if article.title|length > 25 %}
+                    <h4 class="card-text">{{ article.title |slice:":25"  }}...</h4>
+                {% else %}
+                    <h4 class="card-text">{{ article.title  }}</h4>
+                    <h4 class="text-danger" >  Not Published</h4>
+                {% endif %}    
+              {% ratings article %}
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Auther : {{ article.author.username}}</button>
+                </div>
+                <small class="text-body-secondary">Last Update : {{ article.update_date|date:"Y/m/d" }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      
+      {% endfor %}
+    
+    {% endif %}
+    </div>
+
+  
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        {% if page_object.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_object.previous_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if search_keyword %}&search={{ search_keyword }}{% endif %}">Previous</a>
+          </li>
+        {% endif %}
+
+        <li class="page-item active"><a class="page-link" href="#">{{ page_object.number }}</a></li>
+
+        {% if page_object.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_object.next_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if search_keyword %}&search={{ search_keyword }}{% endif %}">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>
+</section>
+<!-- select2 Script -->
+{% endblock %}
+
+{% comment %}
+<div class="album py-5 bg-body-tertiary">
+    
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for article in page_object.object_list %}
+            {% if article.is_show == True %}
+        <div class="col">
+          <div class="card shadow-sm">
+            <a href="{% url "article:article_detail" article.id %}"><img class="bd-placeholder-img card-img-top" src="{{article.peactur.url}}" alt="{{article.title}}"></a>
+            <div class="card-body">
+              <h4 class="card-text">{{article.title }}</h4>
+                {% ratings article %}
+              <div class="d-flex justify-content-between align-items-center">
+               
+                <div class="btn-group">
+                   
+                   
+                  <button type="button" class="btn btn-sm btn-outline-secondary">auther: {{article.auther.get_full_name}}</button>
+                </div>
+                <small class="text-body-secondary">last update {{article.update_date |date:"o/m/d"}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+            {% endif %}
+            {% empty %}
+            <h4 class="text-danger">no Article found</h4>
+            
+        {% endfor %}
+        
+        
+        
+      </div>
+   <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+  
+    <li class="page-item ">
+        {% if page_object.has_previous %}
+      <a class="page-link" href="?page={{ page_object.previous_page_number }}" tabindex="-1">Previous</a></li>
+      <a class="page-link" href="?page={{ page_object.previous_page_number }}" tabindex="-1">{{ page_object.previous_page_number }}</a></li>      
+      {% endif %}
+  
+        
+        <li class ="page-item"><a class ="page-link" style="active" href="">{{ page_object.number }}</a></li >
+  
+    
+   
+    <li class="page-item">
+    {% if page_object.has_next %}
+      <a class="page-link" href="?page={{ page_object.next_page_number }}" tabindex="1">{{ page_object.next_page_number }}</a></li>
+      <a class="page-link" href="?page={{ page_object.next_page_number }}">Next</a>
+    {% endif %}    
+    
+  </ul>
+</nav>
+    </div>
+
+{% endcomment %}

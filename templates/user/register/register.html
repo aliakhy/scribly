@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+<title>Register</title>
+{% endblock %}
+{% block content %}
+<section class="h-100 h-custom" style="background-color:rgba(29,28,28,0.84) ;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-8 col-xl-6">
+        <div class="card rounded-3">
+          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"
+            class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+            alt="Sample photo">
+          <div class="card-body p-4 p-md-5">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Registration Info</h3>
+              
+            <form class="px-md-2" method="post" action="" novalidate>
+            {% csrf_token %}    
+              <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="form3Example1q">User Name</label>
+                  {{ register_form.username }}
+                 {% for error in register_form.username.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+              </div>
+
+              <div class="row">
+              
+              <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="form3Example1q">Email address</label>
+                  {{ register_form.email }}
+                 {% for error in register_form.email.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+              </div>    
+              <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="form3Example1q">Password</label>
+               {{ register_form.password }}
+                 {% for error in register_form.password.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                 {% endfor %}
+
+                </div>
+              
+
+              
+                <button type="submit" class="btn btn-primary">confirm</button>
+                                  
+
+                <!-- Register buttons -->
+                <div class="d-flex align-items-center justify-content-center pb-4">
+                        <p>do you have an account?
+                            <a href="{% url 'accounts:login_page' %}">log in</a>
+                </p>
+                </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}
