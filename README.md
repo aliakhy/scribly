@@ -1,6 +1,5 @@
 ## 🛠️ تکنولوژی‌ها
 - Python & Django
-- Django REST Framework
 - PostgreSQL
 - HTML
 
