@@ -182,3 +182,5 @@ REST_FRAMEWORK= {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 2,}
 
+import os
+SECRET_KEY = os.getenv('SECRET_KEY')
