@@ -125,7 +125,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 # Default primary key field type
@@ -170,6 +169,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'aliakhy313@gmail.com'
 EMAIL_HOST_PASSWORD = 'swzw ehub wmpl kfww'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
 
 # DRF
 REST_FRAMEWORK= {
