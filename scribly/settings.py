@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,8 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-7jlc-6yjp^^986y81o)fk063yl(=p^a)%-42l)zeux%z9re#tq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 ALLOWED_HOSTS = []
 
 
@@ -86,14 +86,7 @@ WSGI_APPLICATION = 'scribly.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'scribly',
-        'USER': 'postgres',
-        'PASSWORD': 'aliakhy313',
-        'HOST': 'localhost',
-        'PORT': 5432,
-    }
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
 }
 
 
@@ -131,9 +124,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -165,7 +159,7 @@ LOGIN_URL='/accounts/'
 STAR_RATINGS_STAR_WIDTH=20
 STAR_RATINGS_RERATE=False
 
-
+ALLOWED_HOSTS = ["scribly.onrender.com", "localhost"]
 #  Email
 
 
@@ -182,5 +176,5 @@ REST_FRAMEWORK= {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 2,}
 
-import os
+
 SECRET_KEY = os.getenv('SECRET_KEY')
