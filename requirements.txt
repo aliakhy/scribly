@@ -7,3 +7,4 @@ gunicorn
 dj-database-url
 psycopg2-binary
 whitenoise
+django-star-ratings==2.1.0
