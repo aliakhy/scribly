@@ -158,7 +158,7 @@ LOGIN_URL='/accounts/'
 STAR_RATINGS_STAR_WIDTH=20
 STAR_RATINGS_RERATE=False
 
-ALLOWED_HOSTS = ["scribly.onrender.com", "localhost"]
+ALLOWED_HOSTS = ["scribly-rstd.onrender.com", "localhost"]
 #  Email
 
 
