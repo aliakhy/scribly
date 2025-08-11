@@ -167,7 +167,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'aliakhy313@gmail.com'
-EMAIL_HOST_PASSWORD = 'swzw ehub wmpl kfww'
+EMAIL_HOST_PASSWORD = 'ayar ndxp zeqv jwhl'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
