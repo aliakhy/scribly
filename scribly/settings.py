@@ -22,10 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-7jlc-6yjp^^986y81o)fk063yl(=p^a)%-42l)zeux%z9re#tq'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "True") == "True"
-ALLOWED_HOSTS = []
+# DEBUG=True
 
 
 # Application definition
@@ -160,7 +158,7 @@ LOGIN_URL='/accounts/'
 STAR_RATINGS_STAR_WIDTH=20
 STAR_RATINGS_RERATE=False
 
-ALLOWED_HOSTS = ["scribly-rstd.onrender.com", "localhost"]
+ALLOWED_HOSTS = ["scribly-rstd.onrender.com", "localhost","127.0.0.1"]
 #  Email
 
 
@@ -175,4 +173,3 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 
-SECRET_KEY = os.getenv('SECRET_KEY')
